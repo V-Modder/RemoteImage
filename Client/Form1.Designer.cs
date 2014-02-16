@@ -28,18 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btn_picture = new System.Windows.Forms.Button();
             this.btn_snipping = new System.Windows.Forms.Button();
             this.txt_serverip = new System.Windows.Forms.TextBox();
             this.btn_connect = new System.Windows.Forms.Button();
             this.lbl_connected = new System.Windows.Forms.Label();
+            this.tmr_Check = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // btn_picture
             // 
-            this.btn_picture.Location = new System.Drawing.Point(12, 12);
+            this.btn_picture.Enabled = false;
+            this.btn_picture.Location = new System.Drawing.Point(12, 14);
             this.btn_picture.Name = "btn_picture";
-            this.btn_picture.Size = new System.Drawing.Size(75, 23);
+            this.btn_picture.Size = new System.Drawing.Size(75, 66);
             this.btn_picture.TabIndex = 2;
             this.btn_picture.Text = "Bild";
             this.btn_picture.UseVisualStyleBackColor = true;
@@ -47,9 +50,10 @@
             // 
             // btn_snipping
             // 
-            this.btn_snipping.Location = new System.Drawing.Point(93, 12);
+            this.btn_snipping.Enabled = false;
+            this.btn_snipping.Location = new System.Drawing.Point(106, 14);
             this.btn_snipping.Name = "btn_snipping";
-            this.btn_snipping.Size = new System.Drawing.Size(75, 23);
+            this.btn_snipping.Size = new System.Drawing.Size(75, 66);
             this.btn_snipping.TabIndex = 3;
             this.btn_snipping.Text = "Snipping";
             this.btn_snipping.UseVisualStyleBackColor = true;
@@ -61,6 +65,7 @@
             this.txt_serverip.Name = "txt_serverip";
             this.txt_serverip.Size = new System.Drawing.Size(134, 20);
             this.txt_serverip.TabIndex = 4;
+            this.txt_serverip.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txt_serverip_KeyDown);
             // 
             // btn_connect
             // 
@@ -74,23 +79,29 @@
             // 
             // lbl_connected
             // 
-            this.lbl_connected.AutoSize = true;
             this.lbl_connected.Location = new System.Drawing.Point(204, 50);
             this.lbl_connected.Name = "lbl_connected";
-            this.lbl_connected.Size = new System.Drawing.Size(48, 13);
+            this.lbl_connected.Size = new System.Drawing.Size(218, 59);
             this.lbl_connected.TabIndex = 6;
             this.lbl_connected.Text = "Getrennt";
+            // 
+            // tmr_Check
+            // 
+            this.tmr_Check.Interval = 1000;
+            this.tmr_Check.Tick += new System.EventHandler(this.tmr_Check_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 72);
+            this.ClientSize = new System.Drawing.Size(426, 109);
             this.Controls.Add(this.lbl_connected);
             this.Controls.Add(this.btn_connect);
             this.Controls.Add(this.txt_serverip);
             this.Controls.Add(this.btn_snipping);
             this.Controls.Add(this.btn_picture);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "RomoteImage - Client";
             this.ResumeLayout(false);
@@ -105,6 +116,7 @@
         private System.Windows.Forms.TextBox txt_serverip;
         private System.Windows.Forms.Button btn_connect;
         private System.Windows.Forms.Label lbl_connected;
+        private System.Windows.Forms.Timer tmr_Check;
     }
 }
 
