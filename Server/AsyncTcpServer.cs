@@ -16,7 +16,10 @@ namespace RDavey.Net
     {
         private TcpListener tcpListener;
         private List<Client> clients;
+        private bool disableCallbacks;
+
         public event RecieveEvent OnRecieve;
+
         /// <summary>
         /// Constructor for a new server using an IPAddress and Port
         /// </summary>
@@ -43,10 +46,20 @@ namespace RDavey.Net
         /// </summary>
         private AsyncTcpServer()
         {
+            this.DisableCallbacks = false;
             this.Encoding = Encoding.Default;
             this.clients = new List<Client>();
         }
 
+        /// <summary>
+        /// Disables all callbacks to shutdown the tcplistner safely
+        /// </summary>
+        public bool DisableCallbacks
+        {
+            get { return disableCallbacks; }
+            set { disableCallbacks = value; }
+        }
+        
         /// <summary>
         /// The encoding to use when sending / receiving strings.
         /// </summary>
@@ -81,6 +94,7 @@ namespace RDavey.Net
         /// </summary>
         public void Stop()
         {
+            this.DisableCallbacks = true;
             this.tcpListener.Stop();
             lock (this.clients)
             {
@@ -155,16 +169,19 @@ namespace RDavey.Net
         /// <param name="result">The async result object</param>
         private void AcceptTcpClientCallback(IAsyncResult result)
         {
-            TcpClient tcpClient = tcpListener.EndAcceptTcpClient(result);
-            byte[] buffer = new byte[tcpClient.ReceiveBufferSize];
-            Client client = new Client(tcpClient, buffer);
-            lock (this.clients)
+            if (!this.DisableCallbacks)
             {
-                this.clients.Add(client);
+                TcpClient tcpClient = tcpListener.EndAcceptTcpClient(result);
+                byte[] buffer = new byte[tcpClient.ReceiveBufferSize];
+                Client client = new Client(tcpClient, buffer);
+                lock (this.clients)
+                {
+                    this.clients.Add(client);
+                }
+                NetworkStream networkStream = client.NetworkStream;
+                networkStream.BeginRead(client.Buffer, 0, client.Buffer.Length, ReadCallback, client);
+                tcpListener.BeginAcceptTcpClient(AcceptTcpClientCallback, null);
             }
-            NetworkStream networkStream = client.NetworkStream;
-            networkStream.BeginRead(client.Buffer, 0, client.Buffer.Length, ReadCallback, client);
-            tcpListener.BeginAcceptTcpClient(AcceptTcpClientCallback, null);
         }
 
         /// <summary>
@@ -173,25 +190,28 @@ namespace RDavey.Net
         /// <param name="result">The async result object</param>
         private void ReadCallback(IAsyncResult result)
         {
-            Client client = result.AsyncState as Client;
-            if (client == null) return;
-            NetworkStream networkStream = client.NetworkStream;
-            int read = networkStream.EndRead(result);
-            if (read == 0)
+            if (!this.DisableCallbacks)
             {
-                lock (this.clients)
+                Client client = result.AsyncState as Client;
+                if (client == null) return;
+                NetworkStream networkStream = client.NetworkStream;
+                int read = networkStream.EndRead(result);
+                if (read == 0)
                 {
-                    this.clients.Remove(client);
-                    return;
+                    lock (this.clients)
+                    {
+                        this.clients.Remove(client);
+                        return;
+                    }
                 }
+                string data = this.Encoding.GetString(client.Buffer, 0, read);
+                if (OnRecieve != null)
+                {
+                    OnRecieve(client, client.Buffer);
+                }
+                //Do something with the data object here.
+                networkStream.BeginRead(client.Buffer, 0, client.Buffer.Length, ReadCallback, client);
             }
-            string data = this.Encoding.GetString(client.Buffer, 0, read);
-            if (OnRecieve != null)
-            {
-                OnRecieve(client, client.Buffer);
-            }
-            //Do something with the data object here.
-            networkStream.BeginRead(client.Buffer, 0, client.Buffer.Length, ReadCallback, client);
         }
     }
 

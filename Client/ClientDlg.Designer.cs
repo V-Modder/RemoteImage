@@ -1,6 +1,6 @@
 ﻿namespace Client
 {
-    partial class Form1
+    partial class ClientDlg
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -35,6 +35,7 @@
             this.btn_connect = new System.Windows.Forms.Button();
             this.lbl_connected = new System.Windows.Forms.Label();
             this.tmr_Check = new System.Windows.Forms.Timer(this.components);
+            this.pgb_send = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // btn_picture
@@ -90,11 +91,21 @@
             this.tmr_Check.Interval = 1000;
             this.tmr_Check.Tick += new System.EventHandler(this.tmr_Check_Tick);
             // 
+            // pgb_send
+            // 
+            this.pgb_send.Location = new System.Drawing.Point(314, 50);
+            this.pgb_send.Name = "pgb_send";
+            this.pgb_send.Size = new System.Drawing.Size(100, 23);
+            this.pgb_send.Step = 8192;
+            this.pgb_send.TabIndex = 7;
+            this.pgb_send.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 109);
+            this.Controls.Add(this.pgb_send);
             this.Controls.Add(this.lbl_connected);
             this.Controls.Add(this.btn_connect);
             this.Controls.Add(this.txt_serverip);
@@ -117,6 +128,7 @@
         private System.Windows.Forms.Button btn_connect;
         private System.Windows.Forms.Label lbl_connected;
         private System.Windows.Forms.Timer tmr_Check;
+        private System.Windows.Forms.ProgressBar pgb_send;
     }
 }
 

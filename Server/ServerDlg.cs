@@ -10,7 +10,7 @@ using RDavey.Net;
 
 namespace Server
 {
-    public partial class Form1 : Form
+    public partial class ServerDlg : Form
     {
         private FormState fs = new FormState();
         private AsyncTcpServer svr;
@@ -20,7 +20,7 @@ namespace Server
         private Size imgSize;
         private byte[] ba;
 
-        public Form1()
+        public ServerDlg()
         {
             InitializeComponent();
             #if (!DEBUG)
@@ -43,6 +43,7 @@ namespace Server
 
         private void btn_exit_Click(object sender, EventArgs e)
         {
+            svr.Stop();
             this.Close();
         }
 

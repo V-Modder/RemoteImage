@@ -9,11 +9,11 @@ using System.Windows.Forms;
 
 namespace Client
 {
-    public partial class Form1 : Form
+    public partial class ClientDlg : Form
     {
         private TcpClient cln = new TcpClient();
 
-        public Form1()
+        public ClientDlg()
         {
             InitializeComponent();
         }
@@ -68,23 +68,27 @@ namespace Client
 
         private void ChangeUI()
         {
-            if (IsConnected(cln.Client))
+            MethodInvoker LabelUpdate = delegate
             {
-                lbl_connected.ForeColor = Color.Black;
-                lbl_connected.Text = "Verbunden";
-                btn_connect.Text = "Trennen";
-                btn_picture.Enabled = true;
-                btn_snipping.Enabled = true;
-            }
-            else
-            {
-                tmr_Check.Stop();
-                lbl_connected.ForeColor = Color.Black;
-                lbl_connected.Text = "Getrennt";
-                btn_connect.Text = "Verbinden";
-                btn_picture.Enabled = false;
-                btn_snipping.Enabled = false;
-            }
+                if (IsConnected(cln.Client))
+                {
+                    lbl_connected.ForeColor = Color.Black;
+                    lbl_connected.Text = "Verbunden";
+                    btn_connect.Text = "Trennen";
+                    btn_picture.Enabled = true;
+                    btn_snipping.Enabled = true;
+                }
+                else
+                {
+                    tmr_Check.Stop();
+                    lbl_connected.ForeColor = Color.Black;
+                    lbl_connected.Text = "Getrennt";
+                    btn_connect.Text = "Verbinden";
+                    btn_picture.Enabled = false;
+                    btn_snipping.Enabled = false;
+                }
+            };
+            Invoke(LabelUpdate);
         }
 
         private void Connect()
@@ -102,7 +106,7 @@ namespace Client
                 catch (Exception ee)
                 {
                     tmr_Check.Stop();
-                    lbl_connected.ForeColor = Color.Red;
+                    
                     string s;
                     if (ee.Message.Contains(":2345"))
                         s = ee.Message.Remove(ee.Message.IndexOf(":2345"), 5);
@@ -110,6 +114,7 @@ namespace Client
                         s = ee.Message;
                     MethodInvoker LabelUpdate = delegate
                     {
+                        lbl_connected.ForeColor = Color.Red;
                         lbl_connected.Text = s;
                     };
                     Invoke(LabelUpdate);
@@ -139,13 +144,6 @@ namespace Client
         {
             try
             {
-                //Images.ImageSerializable imgs = new Images.ImageSerializable(message);
-                //MemoryStream memoryStream = new MemoryStream();
-                //BinaryFormatter formatter = new BinaryFormatter();
-                //ImageConverter converter = new ImageConverter();
-                //formatter.Serialize(memoryStream, imgs);
-                
-                //byte[] imgArray = memoryStream.ToArray();
                 byte[] imgArray = ObjectToByteArray(message);
                 byte[] arr = new byte[8192];
                 byte[] ar = new byte[12];
@@ -153,6 +151,7 @@ namespace Client
                 Array.Copy(UintToBytes((uint)message.Width), 0, ar, 4, 4);
                 Array.Copy(UintToBytes((uint)message.Height), 0, ar, 8, 4);
                 cln.Client.Send(ar, 12, SocketFlags.None);
+
                 int i;
                 for (i = 0; i < imgArray.Length; i++)
                 {
@@ -177,7 +176,8 @@ namespace Client
             }
             catch (Exception e)
             {
-                //MessageBox.Show(e.ToString());
+                lbl_connected.ForeColor = Color.Red;
+                lbl_connected.Text = e.Message;
             }
         }
 
