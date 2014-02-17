@@ -33,21 +33,23 @@
             // 
             // btn_exit
             // 
-            this.btn_exit.Image = global::Server.Properties.Resources.cross;
-            this.btn_exit.Location = new System.Drawing.Point(757, 0);
+            this.btn_exit.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btn_exit.Image = global::Server.Properties.Resources.Cross;
+            this.btn_exit.Location = new System.Drawing.Point(756, 2);
             this.btn_exit.Name = "btn_exit";
             this.btn_exit.Size = new System.Drawing.Size(41, 41);
             this.btn_exit.TabIndex = 0;
             this.btn_exit.UseVisualStyleBackColor = true;
             this.btn_exit.Click += new System.EventHandler(this.btn_exit_Click);
             // 
-            // Form1
+            // ServerDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(799, 433);
             this.Controls.Add(this.btn_exit);
-            this.Name = "Form1";
+            this.Name = "ServerDlg";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.ResumeLayout(false);
