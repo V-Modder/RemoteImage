@@ -28,13 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.btn_picture = new System.Windows.Forms.Button();
             this.btn_snipping = new System.Windows.Forms.Button();
             this.txt_serverip = new System.Windows.Forms.TextBox();
             this.btn_connect = new System.Windows.Forms.Button();
             this.lbl_connected = new System.Windows.Forms.Label();
-            this.tmr_Check = new System.Windows.Forms.Timer(this.components);
             this.pgb_send = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
@@ -86,11 +84,6 @@
             this.lbl_connected.TabIndex = 6;
             this.lbl_connected.Text = "Getrennt";
             // 
-            // tmr_Check
-            // 
-            this.tmr_Check.Interval = 1000;
-            this.tmr_Check.Tick += new System.EventHandler(this.tmr_Check_Tick);
-            // 
             // pgb_send
             // 
             this.pgb_send.Location = new System.Drawing.Point(314, 50);
@@ -100,7 +93,7 @@
             this.pgb_send.TabIndex = 7;
             this.pgb_send.Visible = false;
             // 
-            // Form1
+            // ClientDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -113,7 +106,7 @@
             this.Controls.Add(this.btn_picture);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
-            this.Name = "Form1";
+            this.Name = "ClientDlg";
             this.Text = "RomoteImage - Client";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -127,7 +120,6 @@
         private System.Windows.Forms.TextBox txt_serverip;
         private System.Windows.Forms.Button btn_connect;
         private System.Windows.Forms.Label lbl_connected;
-        private System.Windows.Forms.Timer tmr_Check;
         private System.Windows.Forms.ProgressBar pgb_send;
     }
 }

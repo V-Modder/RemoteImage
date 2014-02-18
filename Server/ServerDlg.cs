@@ -28,7 +28,7 @@ namespace Server
             btn_exit.Location = new Point(Screen.FromControl(this).Bounds.Width - 40, 1);
             fs.Maximize(this);
             #endif
-            svr = new AsyncTcpServer(getLocalAddress(), 2345);
+            svr = new AsyncTcpServer(IPAddress.Any, 2345);
             svr.OnRecieve += new RecieveEvent(svr_OnRecieve);
             svr.Start();
         }
@@ -43,12 +43,12 @@ namespace Server
 
         private void btn_exit_Click(object sender, EventArgs e)
         {
-            svr.Stop();
             this.Close();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
+            svr.Stop();
             foreach (PictureBox p in pictures)
                 this.Controls.Remove(p);
             pictures.Clear();
@@ -88,6 +88,16 @@ namespace Server
             return true;
         }
 
+        private char[] write(byte[] b)
+        {
+            char[] a = new char[b.Length];
+            for (int i = 0; i < a.Length; i++)
+            {
+                a[i] = Convert.ToChar(b[i]);
+            }
+            return a;
+        }
+
         private void svr_OnRecieve(Client ci, byte[] bytes)
         {
             if (byteCount == 0)
@@ -121,12 +131,9 @@ namespace Server
 
                 if (expectedBytes >= byteCount)
                 {
-                    //Images.ImageSerializable imgs = new Images.ImageSerializable();
-                    //BinaryFormatter formattor = new BinaryFormatter();
-                    //MemoryStream ms = new MemoryStream(ba);
-                    //Image img = Image.FromStream(ms);
-                    //imgs = (Images.ImageSerializable)formattor.Deserialize(ms);
-                    //Image img = imgs.Img; 
+                    StreamWriter sw = new StreamWriter(@"C:\server.txt");
+                    sw.Write(write(ba));
+                    sw.Close();
                     Image img = (Image)ByteArrayToObject(ba);
                     PictureBox p = new PictureBox();
                     p.Location = new System.Drawing.Point((this.Size.Width - imgSize.Width) / 2, (this.Size.Height - imgSize.Height) / 2);
@@ -138,6 +145,7 @@ namespace Server
                     {
                         this.Controls.Add(pictures[pictures.Count - 1]);
                         pictures[pictures.Count - 1].BringToFront();
+                        this.btn_exit.BringToFront();
                     };
                     Invoke(LabelUpdate);
                     byteCount = 0;

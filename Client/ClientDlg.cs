@@ -6,16 +6,22 @@ using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace Client
 {
     public partial class ClientDlg : Form
     {
         private TcpClient cln = new TcpClient();
+        private System.Windows.Forms.Timer tmr_Check = new System.Windows.Forms.Timer();
 
         public ClientDlg()
         {
             InitializeComponent();
+            cln.SendBufferSize = 1024;
+            tmr_Check.Enabled = false;
+            tmr_Check.Interval = 1000;
+            tmr_Check.Tick += new EventHandler(tmr_Check_Tick);
         }
 
         private void btn_connect_Click(object sender, EventArgs e)
@@ -100,7 +106,11 @@ namespace Client
                 try
                 {
                     cln = new TcpClient(txt_serverip.Text, 2345);
-                    tmr_Check.Start();
+                    MethodInvoker LabelUpdate = delegate
+                    {
+                        tmr_Check.Start();
+                    };
+                    Invoke(LabelUpdate);
                     ChangeUI();
                 }
                 catch (Exception ee)
@@ -140,37 +150,51 @@ namespace Client
             return hStream.ToArray();
         }
 
+        private string[] write(byte[] b)
+        {
+            List<string> a = new List<string>();
+            for (int i = 0; i < b.Length; i++)
+            {
+                a.Add(Convert.ToInt32(b[i]).ToString() + "\n");
+            }
+            return a.ToArray();
+        }
+
         private void SendImage(Image message)
         {
             try
             {
                 byte[] imgArray = ObjectToByteArray(message);
-                byte[] arr = new byte[8192];
+                byte[] arr = new byte[1024];
                 byte[] ar = new byte[12];
+                StreamWriter sw = new StreamWriter(@"C:\client.txt");
+                sw.Write(write(imgArray));
+                sw.Close();
                 Array.Copy(UintToBytes((uint)imgArray.Length), 0, ar, 0, 4);
                 Array.Copy(UintToBytes((uint)message.Width), 0, ar, 4, 4);
                 Array.Copy(UintToBytes((uint)message.Height), 0, ar, 8, 4);
+                //MessageBox.Show(imgArray.Length.ToString());
                 cln.Client.Send(ar, 12, SocketFlags.None);
-
                 int i;
                 for (i = 0; i < imgArray.Length; i++)
                 {
-                    if (i % 8192 == 0 && i != 0)
+                    if (i % 1024 == 0 && i != 0)
                     {
                         cln.Client.Send(arr);
-                        if (imgArray.Length - i < 8192)
+                        if (imgArray.Length - i < 1024)
                         {
                             arr = new byte[imgArray.Length - i];
                         }
                         else
                         {
-                            arr = new byte[8192];
+                            arr = new byte[1024];
                         }
                     }
-                    arr[i % 8192] = imgArray[i];
+                    arr[i % 1024] = imgArray[i];
                 }
-                if (i % 8192 != 0)
+                if (i % 1024 != 0)
                 {
+                    Thread.Sleep(4000);
                     cln.Client.Send(arr);
                 }
             }
