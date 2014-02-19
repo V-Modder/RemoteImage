@@ -14,5 +14,5 @@ I was inspired to wrote these application by various crime-series on TV, especia
 
 ## License
 
-[Nito Asynchronous Library](https://nitoasync.codeplex.com/)
+[Nito Asynchronous Library](https://nitoasync.codeplex.com/)<br />
 [MS-PL](https://github.com/V-Modder/RemoteImage/blob/master/license.md)
