@@ -123,6 +123,16 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nito.Async.Sockets\Nito.Async.Sockets.csproj">
+      <Project>{B412B766-BEC2-407C-A7A1-0E5257511515}</Project>
+      <Name>Nito.Async.Sockets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Nito.Async\Nito.Async.csproj">
+      <Project>{708763ED-7801-4F2C-B103-4FEBD771769A}</Project>
+      <Name>Nito.Async</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

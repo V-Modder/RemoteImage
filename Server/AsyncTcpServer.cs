@@ -86,7 +86,6 @@ namespace RDavey.Net
         {
             this.tcpListener.Start();
             this.tcpListener.BeginAcceptTcpClient(AcceptTcpClientCallback, null);
-            this.tcpListener.Server.ReceiveBufferSize = 1024;
         }
 
         /// <summary>

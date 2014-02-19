@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
-using System.IO;
-using System.Net;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using Org.Vesic.WinForms;
-using RDavey.Net;
+using Nito.Async.Sockets;
+using Nito.Async;
 
 namespace Server
 {
     public partial class ServerDlg : Form
     {
+        private SimpleServerTcpSocket ListeningSocket;
         private FormState fs = new FormState();
-        private AsyncTcpServer svr;
-        private List<PictureBox> pictures = new List<PictureBox>();
-        private int expectedBytes = 0;
-        private int byteCount = 0;
-        private Size imgSize;
-        private byte[] ba;
+        private Dictionary<SimpleServerChildTcpSocket, ImageState> ChildSockets = new Dictionary<SimpleServerChildTcpSocket, ImageState>();
+        private const int port = 2345;
 
         public ServerDlg()
         {
@@ -28,129 +24,152 @@ namespace Server
             btn_exit.Location = new Point(Screen.FromControl(this).Bounds.Width - 40, 1);
             fs.Maximize(this);
             #endif
-            svr = new AsyncTcpServer(IPAddress.Any, 2345);
-            svr.OnRecieve += new RecieveEvent(svr_OnRecieve);
-            svr.Start();
+            ListeningSocket = new SimpleServerTcpSocket();
+            ListeningSocket.ConnectionArrived += ListeningSocket_ConnectionArrived;
+            ListeningSocket.Listen(port);
         }
 
-        private object ByteArrayToObject(byte[] pArray)
+        private bool RemoveElement(SimpleServerChildTcpSocket s)
         {
-            MemoryStream hStream = new MemoryStream(pArray);
-            BinaryFormatter hFormatter = new BinaryFormatter();
-            hStream.Position = 0;
-            return hFormatter.Deserialize(hStream);
+            if(s != null)
+                s.Close();
+            foreach (PictureBox p in ChildSockets[s].Pictures)
+            {
+                this.Controls.Remove(p);
+                p.Dispose();
+                ChildSockets[s].Pictures.Remove(p);
+            }
+            return ChildSockets.Remove(s);
+        }
+
+        private void ResetChildSocket(SimpleServerChildTcpSocket childSocket)
+        {
+            RemoveElement(childSocket);
+        }
+        
+        private void ResetListeningSocket()
+        {
+            // Close all child sockets and delete their handles to the ServerDlg
+            foreach (SimpleServerChildTcpSocket s in ChildSockets.Keys)
+            {
+                RemoveElement(s);
+                s.AbortiveClose();
+            }
+            ChildSockets.Clear();
+
+            // Close the listening socket
+            ListeningSocket.Close();
+            ListeningSocket = null;
+        }
+
+        private void ListeningSocket_ConnectionArrived(AsyncResultEventArgs<SimpleServerChildTcpSocket> e)
+        {
+            // Check for errors
+            if (e.Error != null)
+            {
+                ResetListeningSocket();
+                return;
+            }
+
+            SimpleServerChildTcpSocket socket = e.Result;
+
+            try
+            {
+                // Save the new child socket connection
+                ChildSockets.Add(socket, new ImageState(ChildSocketState.Connected));
+                socket.PacketArrived += (args) => ChildSocket_PacketArrived(socket, args);
+                socket.ShutdownCompleted += (args) => ChildSocket_ShutdownCompleted(socket, args);
+                // Display the connection information
+                //textBoxLog.AppendText("Connection established to " + socket.RemoteEndPoint.ToString() + Environment.NewLine);
+            }
+            catch (Exception ex)
+            {
+                ResetChildSocket(socket);
+                //textBoxLog.AppendText("Socket error accepting connection: [" + ex.GetType().Name + "] " + ex.Message + Environment.NewLine);
+            }
+            finally
+            {
+                //RefreshDisplay();
+            }
+        }
+
+        private void ChildSocket_PacketArrived(SimpleServerChildTcpSocket socket, AsyncResultEventArgs<byte[]> e)
+        {
+            try
+            {
+                // Check for errors
+                if (e.Error != null)
+                {
+                    //textBoxLog.AppendText("Client socket error during Read from " + socket.RemoteEndPoint.ToString() + ": [" + e.Error.GetType().Name + "] " + e.Error.Message + Environment.NewLine);
+                    ResetChildSocket(socket);
+                }
+                else if (e.Result == null)
+                {
+                    // PacketArrived completes with a null packet when the other side gracefully closes the connection
+                    //textBoxLog.AppendText("Socket graceful close detected from " + socket.RemoteEndPoint.ToString() + Environment.NewLine);
+
+                    // Close the socket and remove it from the list
+                    ResetChildSocket(socket);
+                }
+                else
+                {
+                    // At this point, we know we actually got a message.
+                    // Deserialize the message
+                    Image message = (Image) Util.Deserialize(e.Result);
+
+                    // Handle the message
+                    PictureBox p = new PictureBox();
+                    p.Location = new System.Drawing.Point((this.Size.Width - message.Width) / 2, (this.Size.Height - message.Height) / 2);
+                    p.Name = "newone";
+                    p.Size = new Size(message.Width, message.Height);
+                    p.Image = message;
+                    ImageState iss = new ImageState();
+                    ChildSockets[socket].Pictures.Insert(ChildSockets[socket].Pictures.Count, p);
+                    this.Controls.Add(ChildSockets[socket].Pictures[ChildSockets[socket].Pictures.Count - 1]);
+                    ChildSockets[socket].Pictures[ChildSockets[socket].Pictures.Count - 1].BringToFront();
+                    btn_exit.BringToFront();
+                }
+            }
+            catch (Exception ex)
+            {
+                //textBoxLog.AppendText("Error reading from socket " + socket.RemoteEndPoint.ToString() + ": [" + ex.GetType().Name + "] " + ex.Message + Environment.NewLine);
+                ResetChildSocket(socket);
+            }
+            finally
+            {
+                //RefreshDisplay();
+            }
+        }
+
+        private void ChildSocket_ShutdownCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            SimpleServerChildTcpSocket socket = (SimpleServerChildTcpSocket)sender;
+
+            // Check for errors
+            if (e.Error != null)
+            {
+                //textBoxLog.AppendText("Socket error during Shutdown of " + socket.RemoteEndPoint.ToString() + ": [" + e.Error.GetType().Name + "] " + e.Error.Message + Environment.NewLine);
+                ResetChildSocket(socket);
+            }
+            else
+            {
+                //textBoxLog.AppendText("Socket shutdown completed on " + socket.RemoteEndPoint.ToString() + Environment.NewLine);
+
+                // Close the socket and remove it from the list
+                ResetChildSocket(socket);
+            }
+            // RefreshDisplay();
         }
 
         private void btn_exit_Click(object sender, EventArgs e)
         {
+            ResetListeningSocket();
             this.Close();
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            svr.Stop();
-            foreach (PictureBox p in pictures)
-                this.Controls.Remove(p);
-            pictures.Clear();
-            svr.Stop();
+        { 
             fs.Restore(this);
-        }
-
-        private int GetInt(byte[] ba)
-        {
-            int r = 0;
-            for (int i = 0; i < 4; i++)
-                r += ba[i] << ((4 - i - 1) * 8);
-            return r;
-        }
-
-        private IPAddress getLocalAddress()
-        {
-            IPHostEntry host;
-            host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress ip in host.AddressList)
-            {
-                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-                {
-                    return ip;
-                }
-            }
-            return null;
-        }
-
-        private bool isEmpty(byte[] bytes)
-        {
-            for (long i = 0; i < bytes.Length; i++)
-            {
-                if (bytes[i] > 0)
-                    return false;
-            }
-            return true;
-        }
-
-        private char[] write(byte[] b)
-        {
-            char[] a = new char[b.Length];
-            for (int i = 0; i < a.Length; i++)
-            {
-                a[i] = Convert.ToChar(b[i]);
-            }
-            return a;
-        }
-
-        private void svr_OnRecieve(Client ci, byte[] bytes)
-        {
-            if (byteCount == 0)
-            {
-                if (isEmpty(bytes))
-                    return;
-                byte[] b = new byte[4];
-                for (int x = 0; x < 4; x++)
-                    b[x] = bytes[x];
-                byteCount = GetInt(b);
-                for (int x = 4; x < 8; x++)
-                    b[x - 4] = bytes[x];
-                imgSize = new Size();
-                imgSize.Width = GetInt(b);
-                for (int x = 8; x < 12; x++)
-                    b[x - 8] = bytes[x];
-                imgSize.Height = GetInt(b);
-                
-                ba = new byte[byteCount];
-                expectedBytes = 0;
-            }
-            else
-            {
-                if (isEmpty(bytes))
-                    return;
-                int i = 0;
-                while (i < bytes.Length && expectedBytes < byteCount)
-                {
-                    ba[expectedBytes++] = bytes[i++];
-                }
-
-                if (expectedBytes >= byteCount)
-                {
-                    StreamWriter sw = new StreamWriter(@"C:\server.txt");
-                    sw.Write(write(ba));
-                    sw.Close();
-                    Image img = (Image)ByteArrayToObject(ba);
-                    PictureBox p = new PictureBox();
-                    p.Location = new System.Drawing.Point((this.Size.Width - imgSize.Width) / 2, (this.Size.Height - imgSize.Height) / 2);
-                    p.Name = "newone";
-                    p.Size = new Size(imgSize.Width, imgSize.Height);
-                    p.Image = img;
-                    pictures.Insert(pictures.Count, p);
-                    MethodInvoker LabelUpdate = delegate
-                    {
-                        this.Controls.Add(pictures[pictures.Count - 1]);
-                        pictures[pictures.Count - 1].BringToFront();
-                        this.btn_exit.BringToFront();
-                    };
-                    Invoke(LabelUpdate);
-                    byteCount = 0;
-                }
-            }
         }
     }
 }

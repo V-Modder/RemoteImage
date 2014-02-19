@@ -2,31 +2,57 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net.Sockets;
+using System.ComponentModel;
+using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Threading;
 using System.Windows.Forms;
-using System.Collections.Generic;
+using Nito.Async.Sockets;
+using Nito.Async;
 
 namespace Client
 {
     public partial class ClientDlg : Form
     {
-        private TcpClient cln = new TcpClient();
-        private System.Windows.Forms.Timer tmr_Check = new System.Windows.Forms.Timer();
+        /// <summary>
+        /// The connected state of the socket.
+        /// </summary>
+        private enum SocketState
+        {
+            /// <summary>
+            /// The socket is closed; we are not trying to connect.
+            /// </summary>
+            Closed,
+
+            /// <summary>
+            /// The socket is attempting to connect.
+            /// </summary>
+            Connecting,
+
+            /// <summary>
+            /// The socket is connected.
+            /// </summary>
+            Connected,
+
+            /// <summary>
+            /// The socket is attempting to disconnect.
+            /// </summary>
+            Disconnecting
+        }
+        private SocketState ClientSocketState;
+        private SimpleClientTcpSocket ClientSocket;
+        private const int port = 2345;
 
         public ClientDlg()
         {
             InitializeComponent();
-            cln.SendBufferSize = 1024;
-            tmr_Check.Enabled = false;
-            tmr_Check.Interval = 1000;
-            tmr_Check.Tick += new EventHandler(tmr_Check_Tick);
         }
 
         private void btn_connect_Click(object sender, EventArgs e)
         {
-            Connect();
+            if (ClientSocketState == SocketState.Connected)
+                ResetSocket();
+            else
+                Connect();
         }
 
         private void btn_picture_Click(object sender, EventArgs e)
@@ -72,74 +98,136 @@ namespace Client
             this.Show();
         }
 
-        private void ChangeUI()
+        private void ClientSocket_ConnectCompleted(AsyncCompletedEventArgs e)
         {
-            MethodInvoker LabelUpdate = delegate
+            try
             {
-                if (IsConnected(cln.Client))
+                // Check for errors
+                if (e.Error != null)
                 {
-                    lbl_connected.ForeColor = Color.Black;
-                    lbl_connected.Text = "Verbunden";
-                    btn_connect.Text = "Trennen";
-                    btn_picture.Enabled = true;
-                    btn_snipping.Enabled = true;
+                    ResetSocket();
+                    lbl_connected.ForeColor = Color.Red;
+                    lbl_connected.Text = e.Error.Message;
+                    RefreshDisplay(true);
+                    return;
                 }
-                else
+
+                // Adjust state
+                ClientSocketState = SocketState.Connected;
+                RefreshDisplay(false);
+            }
+            catch (Exception ex)
+            {
+                ResetSocket();
+                lbl_connected.ForeColor = Color.Red;
+                lbl_connected.Text = ex.Message;
+                RefreshDisplay(true);
+            }
+        }
+
+        private void ClientSocket_WriteCompleted(object sender, AsyncCompletedEventArgs e)
+        {
+            // Check for errors
+            if (e.Error != null)
+            {
+                // Note: WriteCompleted may be called as the result of a normal write or a keepalive packet.
+                ResetSocket();
+
+                // If you want to get fancy, you can tell if the error is the result of a write failure or a keepalive
+                //  failure by testing e.UserState, which is set by normal writes.
+                lbl_connected.ForeColor = Color.Red;
+                lbl_connected.Text = e.Error.Message;
+                RefreshDisplay(true);
+            }
+            else
+            {
+                //Do the things to do if write was fine
+                RefreshDisplay(false);
+            }
+        }
+
+        private void ClientSocket_ShutdownCompleted(AsyncCompletedEventArgs e)
+        {
+            // Check for errors
+            if (e.Error != null)
+            {
+                ResetSocket();
+                lbl_connected.ForeColor = Color.Red;
+                lbl_connected.Text = e.Error.Message;
+                RefreshDisplay(true);
+            }
+            else
+            {
+                ResetSocket();
+                RefreshDisplay(false);
+            }
+        }
+
+        private void ClientSocket_PacketArrived(AsyncResultEventArgs<byte[]> e)
+        {
+            try
+            {
+                // Check for errors
+                if (e.Error != null)
                 {
-                    tmr_Check.Stop();
-                    lbl_connected.ForeColor = Color.Black;
-                    lbl_connected.Text = "Getrennt";
-                    btn_connect.Text = "Verbinden";
-                    btn_picture.Enabled = false;
-                    btn_snipping.Enabled = false;
+                    ResetSocket();
+                    lbl_connected.ForeColor = Color.Red;
+                    lbl_connected.Text = e.Error.Message;
+                    RefreshDisplay(true);
                 }
-            };
-            Invoke(LabelUpdate);
+                else if (e.Result == null)
+                {
+                    // PacketArrived completes with a null packet when the other side gracefully closes the connection
+                    lbl_connected.ForeColor = Color.Red;
+                    lbl_connected.Text = e.Error.Message;
+                    RefreshDisplay(true);
+
+                    // Close the socket and handle the state transition to disconnected.
+                    ResetSocket();
+                }
+            }
+            catch (Exception ex)
+            {
+                ResetSocket();
+                lbl_connected.ForeColor = Color.Red;
+                lbl_connected.Text = "hallo";
+                RefreshDisplay(true);
+            }
         }
 
         private void Connect()
         {
-            lbl_connected.ForeColor = Color.Black;
-            lbl_connected.Text = "Verbinde...";
-            new Thread(delegate()
+            if (ClientSocketState == SocketState.Closed)
             {
                 try
                 {
-                    cln = new TcpClient(txt_serverip.Text, 2345);
-                    MethodInvoker LabelUpdate = delegate
+                    // Read the IP address
+                    IPAddress serverIPAddress;
+                    if (!IPAddress.TryParse(txt_serverip.Text, out serverIPAddress))
                     {
-                        tmr_Check.Start();
-                    };
-                    Invoke(LabelUpdate);
-                    ChangeUI();
-                }
-                catch (Exception ee)
-                {
-                    tmr_Check.Stop();
-                    
-                    string s;
-                    if (ee.Message.Contains(":2345"))
-                        s = ee.Message.Remove(ee.Message.IndexOf(":2345"), 5);
-                    else
-                        s = ee.Message;
-                    MethodInvoker LabelUpdate = delegate
-                    {
-                        lbl_connected.ForeColor = Color.Red;
-                        lbl_connected.Text = s;
-                    };
-                    Invoke(LabelUpdate);
-                    cln.Close();
-                }
-            }).Start();
-        }
+                        MessageBox.Show("Invalid IP address: " + txt_serverip.Text);
+                        txt_serverip.Focus();
+                        return;
+                    }
 
-        private bool IsConnected(Socket socket)
-        {
-            try
-            {
-                return !(socket.Poll(1, SelectMode.SelectRead) && socket.Available == 0);
+                    // Begin connecting to the remote IP
+                    ClientSocket = new SimpleClientTcpSocket();
+                    ClientSocket.ConnectCompleted += ClientSocket_ConnectCompleted;
+                    ClientSocket.PacketArrived += ClientSocket_PacketArrived;
+                    ClientSocket.WriteCompleted += (args) => ClientSocket_WriteCompleted(ClientSocket, args);
+                    ClientSocket.ShutdownCompleted += ClientSocket_ShutdownCompleted;
+                    ClientSocket.ConnectAsync(serverIPAddress, port);
+                    ClientSocketState = SocketState.Connecting;
+                    RefreshDisplay(false);
+                }
+                catch (Exception ex)
+                {
+                    ResetSocket();
+                    lbl_connected.ForeColor = Color.Red;
+                    lbl_connected.Text = ex.Message;
+                    RefreshDisplay(true);
+                }
             }
-            catch (SocketException) { return false; }
         }
 
         private byte[] ObjectToByteArray(Object pObject)
@@ -150,14 +238,50 @@ namespace Client
             return hStream.ToArray();
         }
 
-        private string[] write(byte[] b)
+        private void RefreshDisplay(bool isError)
         {
-            List<string> a = new List<string>();
-            for (int i = 0; i < b.Length; i++)
+            // We can only send messages if we have a connection
+            btn_picture.Enabled = (ClientSocketState == SocketState.Connected);
+            btn_snipping.Enabled = (ClientSocketState == SocketState.Connected);
+            if (ClientSocketState == SocketState.Connected)
+                btn_connect.Text = "Trennen";
+            else
+                btn_connect.Text = "Verbinden";
+
+            // Display status
+            if (!isError)
             {
-                a.Add(Convert.ToInt32(b[i]).ToString() + "\n");
+                lbl_connected.ForeColor = Color.Black;
+                switch (ClientSocketState)
+                {
+                    case SocketState.Closed:
+                        lbl_connected.Text = "Getrennt";
+                        break;
+                    case SocketState.Connecting:
+                        lbl_connected.Text = "Verbinde...";
+                        break;
+                    case SocketState.Connected:
+                        lbl_connected.Text = "Verbunden mit " + ClientSocket.RemoteEndPoint.ToString();
+                        break;
+                    case SocketState.Disconnecting:
+                        lbl_connected.Text = "Trennen";
+                        break;
+                }
             }
-            return a.ToArray();
+        }
+
+        private void ResetSocket()
+        {
+            // Close the socket
+            if (ClientSocket != null)
+            {
+                ClientSocket.Close();
+                ClientSocket = null;
+            }
+
+            // Indicate there is no socket connection
+            ClientSocketState = SocketState.Closed;
+            RefreshDisplay(false);
         }
 
         private void SendImage(Image message)
@@ -165,49 +289,15 @@ namespace Client
             try
             {
                 byte[] imgArray = ObjectToByteArray(message);
-                byte[] arr = new byte[1024];
-                byte[] ar = new byte[12];
-                StreamWriter sw = new StreamWriter(@"C:\client.txt");
-                sw.Write(write(imgArray));
-                sw.Close();
-                Array.Copy(UintToBytes((uint)imgArray.Length), 0, ar, 0, 4);
-                Array.Copy(UintToBytes((uint)message.Width), 0, ar, 4, 4);
-                Array.Copy(UintToBytes((uint)message.Height), 0, ar, 8, 4);
-                //MessageBox.Show(imgArray.Length.ToString());
-                cln.Client.Send(ar, 12, SocketFlags.None);
-                int i;
-                for (i = 0; i < imgArray.Length; i++)
-                {
-                    if (i % 1024 == 0 && i != 0)
-                    {
-                        cln.Client.Send(arr);
-                        if (imgArray.Length - i < 1024)
-                        {
-                            arr = new byte[imgArray.Length - i];
-                        }
-                        else
-                        {
-                            arr = new byte[1024];
-                        }
-                    }
-                    arr[i % 1024] = imgArray[i];
-                }
-                if (i % 1024 != 0)
-                {
-                    Thread.Sleep(4000);
-                    cln.Client.Send(arr);
-                }
+                ClientSocket.WriteAsync(imgArray);
+                RefreshDisplay(false);
             }
             catch (Exception e)
             {
                 lbl_connected.ForeColor = Color.Red;
                 lbl_connected.Text = e.Message;
+                RefreshDisplay(true);
             }
-        }
-
-        private void tmr_Check_Tick(object sender, EventArgs e)
-        {
-            ChangeUI();
         }
 
         private void txt_serverip_KeyDown(object sender, KeyEventArgs e)
