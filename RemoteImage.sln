@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{CD6015E1-08D7-44A2-ACA3-FBA30EC96CF1}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90CFF304-5596-41EF-A435-B47BA50EEE73}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info Files", "Info Files", "{90CFF304-5596-41EF-A435-B47BA50EEE73}"
 	ProjectSection(SolutionItems) = preProject
 		license.md = license.md
 		Readme.md = Readme.md

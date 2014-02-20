@@ -33,12 +33,13 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -62,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpenWindowGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ClientDlg.cs">
       <SubType>Form</SubType>
@@ -75,6 +77,12 @@
     </Compile>
     <Compile Include="SnippingTool.Designer.cs">
       <DependentUpon>SnippingTool.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WindowSnipping.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="WindowSnipping.Designer.cs">
+      <DependentUpon>WindowSnipping.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="ClientDlg.resx">
       <DependentUpon>ClientDlg.cs</DependentUpon>
@@ -90,6 +98,9 @@
     </Compile>
     <EmbeddedResource Include="SnippingTool.resx">
       <DependentUpon>SnippingTool.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WindowSnipping.resx">
+      <DependentUpon>WindowSnipping.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

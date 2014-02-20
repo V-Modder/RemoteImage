@@ -33,12 +33,14 @@
             this.txt_serverip = new System.Windows.Forms.TextBox();
             this.btn_connect = new System.Windows.Forms.Button();
             this.lbl_connected = new System.Windows.Forms.Label();
+            this.btn_windowsnipping = new System.Windows.Forms.Button();
+            this.lbl_IPAdress = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btn_picture
             // 
             this.btn_picture.Enabled = false;
-            this.btn_picture.Location = new System.Drawing.Point(12, 14);
+            this.btn_picture.Location = new System.Drawing.Point(12, 25);
             this.btn_picture.Name = "btn_picture";
             this.btn_picture.Size = new System.Drawing.Size(75, 66);
             this.btn_picture.TabIndex = 2;
@@ -49,7 +51,7 @@
             // btn_snipping
             // 
             this.btn_snipping.Enabled = false;
-            this.btn_snipping.Location = new System.Drawing.Point(106, 14);
+            this.btn_snipping.Location = new System.Drawing.Point(106, 25);
             this.btn_snipping.Name = "btn_snipping";
             this.btn_snipping.Size = new System.Drawing.Size(75, 66);
             this.btn_snipping.TabIndex = 3;
@@ -59,7 +61,7 @@
             // 
             // txt_serverip
             // 
-            this.txt_serverip.Location = new System.Drawing.Point(207, 14);
+            this.txt_serverip.Location = new System.Drawing.Point(333, 25);
             this.txt_serverip.Name = "txt_serverip";
             this.txt_serverip.Size = new System.Drawing.Size(134, 20);
             this.txt_serverip.TabIndex = 4;
@@ -67,7 +69,7 @@
             // 
             // btn_connect
             // 
-            this.btn_connect.Location = new System.Drawing.Point(347, 12);
+            this.btn_connect.Location = new System.Drawing.Point(473, 23);
             this.btn_connect.Name = "btn_connect";
             this.btn_connect.Size = new System.Drawing.Size(75, 23);
             this.btn_connect.TabIndex = 5;
@@ -77,17 +79,39 @@
             // 
             // lbl_connected
             // 
-            this.lbl_connected.Location = new System.Drawing.Point(204, 50);
+            this.lbl_connected.Location = new System.Drawing.Point(330, 49);
             this.lbl_connected.Name = "lbl_connected";
             this.lbl_connected.Size = new System.Drawing.Size(218, 59);
             this.lbl_connected.TabIndex = 6;
             this.lbl_connected.Text = "Getrennt";
             // 
+            // btn_windowsnipping
+            // 
+            this.btn_windowsnipping.Enabled = false;
+            this.btn_windowsnipping.Location = new System.Drawing.Point(198, 25);
+            this.btn_windowsnipping.Name = "btn_windowsnipping";
+            this.btn_windowsnipping.Size = new System.Drawing.Size(75, 66);
+            this.btn_windowsnipping.TabIndex = 7;
+            this.btn_windowsnipping.Text = "Window Snipping";
+            this.btn_windowsnipping.UseVisualStyleBackColor = true;
+            this.btn_windowsnipping.Click += new System.EventHandler(this.btn_windowsnipping_Click);
+            // 
+            // lbl_IPAdress
+            // 
+            this.lbl_IPAdress.AutoSize = true;
+            this.lbl_IPAdress.Location = new System.Drawing.Point(342, 9);
+            this.lbl_IPAdress.Name = "lbl_IPAdress";
+            this.lbl_IPAdress.Size = new System.Drawing.Size(76, 13);
+            this.lbl_IPAdress.TabIndex = 8;
+            this.lbl_IPAdress.Text = "Hostname / IP";
+            // 
             // ClientDlg
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(426, 109);
+            this.ClientSize = new System.Drawing.Size(560, 121);
+            this.Controls.Add(this.lbl_IPAdress);
+            this.Controls.Add(this.btn_windowsnipping);
             this.Controls.Add(this.lbl_connected);
             this.Controls.Add(this.btn_connect);
             this.Controls.Add(this.txt_serverip);
@@ -109,6 +133,8 @@
         private System.Windows.Forms.TextBox txt_serverip;
         private System.Windows.Forms.Button btn_connect;
         private System.Windows.Forms.Label lbl_connected;
+        private System.Windows.Forms.Button btn_windowsnipping;
+        private System.Windows.Forms.Label lbl_IPAdress;
     }
 }
 

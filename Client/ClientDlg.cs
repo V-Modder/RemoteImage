@@ -98,6 +98,18 @@ namespace Client
             this.Show();
         }
 
+        private void btn_windowsnipping_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            this.ShowInTaskbar = false;
+            System.Threading.Thread.Sleep(300);
+            Image i = WindowSnipping.Snip(Screen.FromControl(this));
+            if (i != null)
+                SendImage(i);
+            this.ShowInTaskbar = true;
+            this.Show();
+        }
+
         private void ClientSocket_ConnectCompleted(AsyncCompletedEventArgs e)
         {
             try
@@ -209,6 +221,7 @@ namespace Client
                         txt_serverip.Focus();
                         return;
                     }
+                    txt_serverip.Text = serverIPAddress.ToString();
 
                     // Begin connecting to the remote IP
                     ClientSocket = new SimpleClientTcpSocket();
@@ -243,6 +256,7 @@ namespace Client
             // We can only send messages if we have a connection
             btn_picture.Enabled = (ClientSocketState == SocketState.Connected);
             btn_snipping.Enabled = (ClientSocketState == SocketState.Connected);
+            btn_windowsnipping.Enabled = (ClientSocketState == SocketState.Connected);
             if (ClientSocketState == SocketState.Connected)
                 btn_connect.Text = "Trennen";
             else
