@@ -12,7 +12,6 @@ namespace Client
 {
     public partial class WindowSnipping : Form
     {
-        private static Screen _Screen;
         private static Size BitmapSize;
         private static Graphics Graph;
         private static IDictionary<IntPtr, WindowInfo> windows;
@@ -32,10 +31,9 @@ namespace Client
             this.DoubleBuffered = true;
         }
 
-        public static Image Snip(Screen screen)
+        public static Image Snip()
         {
-            _Screen = screen;
-            Bitmap bmp = new Bitmap(screen.Bounds.Width, screen.Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Bitmap bmp = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Graphics gr = Graphics.FromImage(bmp);
             Graph = gr;
 
@@ -44,7 +42,7 @@ namespace Client
 
             windows = OpenWindowGetter.GetOpenWindows();
 
-            using (WindowSnipping snipper = new WindowSnipping(bmp, new Point(screen.Bounds.Left, screen.Bounds.Top)))
+            using (WindowSnipping snipper = new WindowSnipping(bmp, new Point(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top)))
             {
                 if (snipper.ShowDialog() == DialogResult.OK)
                 {
@@ -66,8 +64,8 @@ namespace Client
             {
                 if (p.X >= lWindow.Value.Recangle.Left && p.X <= lWindow.Value.Recangle.Right &&
                     p.Y >= lWindow.Value.Recangle.Top && p.Y <= lWindow.Value.Recangle.Bottom)
-                    return new Rectangle(lWindow.Value.Recangle.Left, lWindow.Value.Recangle.Top,
-                        lWindow.Value.Recangle.Right-lWindow.Value.Recangle.Left, lWindow.Value.Recangle.Bottom - lWindow.Value.Recangle.Top);
+                    return this.RectangleToClient(new Rectangle(lWindow.Value.Recangle.Left, lWindow.Value.Recangle.Top,
+                        lWindow.Value.Recangle.Right-lWindow.Value.Recangle.Left, lWindow.Value.Recangle.Bottom - lWindow.Value.Recangle.Top));
             }
             return Rectangle.Empty;
         }
@@ -118,11 +116,11 @@ namespace Client
 
         private void WindowSnipping_Load(object sender, EventArgs e)
         {
-            this.Size = new Size(_Screen.Bounds.Width, _Screen.Bounds.Height);
-            Rectangle area = _Screen.WorkingArea;
+            this.Size = new Size(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height);
             this.Location = P;
             this.ShowInTaskbar = false;
-            Graph.CopyFromScreen(area.X, area.Y, area.Y, area.Y, BitmapSize);
+
+            Graph.CopyFromScreen(SystemInformation.VirtualScreen.X, SystemInformation.VirtualScreen.Y, 0, 0, BitmapSize);
         }
 
         private void WindowSnipping_KeyDown(object sender, KeyEventArgs e)

@@ -11,7 +11,6 @@ namespace Client
 {
     public partial class SnippingTool : Form
     {
-        private static Screen _Screen;
         private static Size BitmapSize;
         private static Graphics Graph;
         
@@ -30,17 +29,16 @@ namespace Client
             this.DoubleBuffered = true;
         }
 
-        public static Image Snip(Screen screen)
+        public static Image Snip()
         {
-            _Screen = screen;
-            Bitmap bmp = new Bitmap(screen.Bounds.Width, screen.Bounds.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            Bitmap bmp = new Bitmap(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
             Graphics gr = Graphics.FromImage(bmp);
             Graph = gr;
 
             gr.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.None;
             BitmapSize = bmp.Size;
 
-            using(SnippingTool snipper = new SnippingTool(bmp, new Point(screen.Bounds.Left, screen.Bounds.Top)))
+            using (SnippingTool snipper = new SnippingTool(bmp, new Point(SystemInformation.VirtualScreen.Left, SystemInformation.VirtualScreen.Top)))
             {
                 if (snipper.ShowDialog() == DialogResult.OK)
                 {
@@ -115,11 +113,10 @@ namespace Client
 
         private void SnippingTool_Load(object sender, EventArgs e)
         {
-            this.Size = new Size(_Screen.Bounds.Width, _Screen.Bounds.Height);
-            Rectangle area = _Screen.WorkingArea;
+            this.Size = new Size(SystemInformation.VirtualScreen.Width, SystemInformation.VirtualScreen.Height);
             this.Location = P;
             this.ShowInTaskbar = false;
-            Graph.CopyFromScreen(area.X, area.Y, area.Y, area.Y, BitmapSize);
+            Graph.CopyFromScreen(SystemInformation.VirtualScreen.X, SystemInformation.VirtualScreen.Y, 0, 0, BitmapSize);
         }
 
         private void SnippingTool_KeyDown(object sender, KeyEventArgs e)

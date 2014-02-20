@@ -37,7 +37,6 @@ namespace WindowsAPI
                 GetWindowRect(hWnd, ref recc);
                 lWindows[hWnd] = new WindowInfo(lBuilder.ToString(), recc);
                 return true;
-
             }, 0);
 
             return lWindows;

@@ -91,7 +91,7 @@ namespace Client
             this.Hide();
             this.ShowInTaskbar = false;
             System.Threading.Thread.Sleep(300);
-            Image i = SnippingTool.Snip(Screen.FromControl(this));
+            Image i = SnippingTool.Snip();
             if (i != null)
                 SendImage(i);
             this.ShowInTaskbar = true;
@@ -103,7 +103,7 @@ namespace Client
             this.Hide();
             this.ShowInTaskbar = false;
             System.Threading.Thread.Sleep(300);
-            Image i = WindowSnipping.Snip(Screen.FromControl(this));
+            Image i = WindowSnipping.Snip();
             if (i != null)
                 SendImage(i);
             this.ShowInTaskbar = true;
