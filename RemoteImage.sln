@@ -7,7 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info Files", "Info Files", "{90CFF304-5596-41EF-A435-B47BA50EEE73}"
 	ProjectSection(SolutionItems) = preProject
-		license.md = license.md
 		Readme.md = Readme.md
 	EndProjectSection
 EndProject

@@ -65,9 +65,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AsyncTcpServer.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="ImageState.cs" />
     <Compile Include="ServerDlg.cs">
       <SubType>Form</SubType>
