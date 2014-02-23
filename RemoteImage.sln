@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info Files", "Info Files", 
 	ProjectSection(SolutionItems) = preProject
 		license.md = license.md
 		Readme.md = Readme.md
+		Client\setup.aip = Client\setup.aip
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nito.Async", "Nito.Async\Nito.Async.csproj", "{708763ED-7801-4F2C-B103-4FEBD771769A}"

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<DOCUMENT Type="Advanced Installer" CreateVersion="9.4" version="10.8" Modules="enterprise" RootPath="." Language="de" Id="{9C98AC24-BE07-4A7C-B69B-09A7DE5DCBA7}">
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
+    <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
+    <ROW Property="AI_FINDEXE_TITLE" Value="Wöhle das Installationspaket für [|ProductName]" ValueLocId="AI.Property.FindExeTitle"/>
+    <ROW Property="AI_PROPPATH_DIR_PERBUILD_Client.exe_1" Value="..\Client\bin\Release"/>
+    <ROW Property="AI_PROPPATH_DIR_PERBUILD_Nito.Async.Sockets.dll_1" Value="..\Nito.Async.Sockets\bin\Release"/>
+    <ROW Property="AI_PROPPATH_DIR_PERBUILD_Nito.Async.dll_1" Value="..\Nito.Async\bin\Release"/>
+    <ROW Property="AI_PROPPATH_DIR_PERBUILD_Server.exe_1" Value="..\Server\bin\Release"/>
+    <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_Client.exe_1" Value="Client.exe"/>
+    <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_Nito.Async.Sockets.dll_1" Value="Nito.Async.Sockets.dll"/>
+    <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_Nito.Async.dll_1" Value="Nito.Async.dll"/>
+    <ROW Property="AI_PROPPATH_FILENAME_PERBUILD_Server.exe_1" Value="Server.exe"/>
+    <ROW Property="AI_ThemeStyle" Value="default" MsiKey="AI_ThemeStyle"/>
+    <ROW Property="ALLUSERS" Value="1"/>
+    <ROW Property="ARPCOMMENTS" Value="Diese Datenbank ist korrekt und enthält nötige Daten um [|ProductName] zu installieren." ValueLocId="*"/>
+    <ROW Property="ARPPRODUCTICON" Value="iconfinal.exe" Type="8"/>
+    <ROW Property="Manufacturer" Value="V-Modder" ValueLocId="*"/>
+    <ROW Property="ProductCode" Value="1031:{CD876801-0291-4898-9C83-81BDC3AF1BED} " Type="16"/>
+    <ROW Property="ProductLanguage" Value="1033"/>
+    <ROW Property="ProductName" Value="RemoteImage" ValueLocId="*"/>
+    <ROW Property="ProductVersion" Value="1.0.0" Type="32"/>
+    <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
+    <ROW Property="UpgradeCode" Value="{70048619-3BC0-4812-8258-9362CB6D2F25}"/>
+    <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
+    <ROW Property="WindowsTypeNT40Display" MultiBuildValue="DefaultBuild:Windows NT 4.0" ValueLocId="-"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
+    <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1"/>
+    <ROW Directory="ClientFiles_Dir" Directory_Parent="APPDIR" DefaultDir=".:Client~1|Client Files"/>
+    <ROW Directory="Client_Dir" Directory_Parent="APPDIR" DefaultDir="Client"/>
+    <ROW Directory="CommonFiles_Dir" Directory_Parent="APPDIR" DefaultDir=".:Common~1|Common Files"/>
+    <ROW Directory="Nito.Async.Sockets_Dir" Directory_Parent="APPDIR" DefaultDir="NITOAS~1.SOC|Nito.Async.Sockets"/>
+    <ROW Directory="Nito.Async_Dir" Directory_Parent="APPDIR" DefaultDir="NITO~1.ASY|Nito.Async"/>
+    <ROW Directory="ServerFiles_Dir" Directory_Parent="APPDIR" DefaultDir=".:Server~1|Server Files"/>
+    <ROW Directory="Server_Dir" Directory_Parent="APPDIR" DefaultDir="Server"/>
+    <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
+    <ROW Component="AI_ExePath" ComponentId="{C8A85280-D11A-418A-BBA5-ABDE5E4B04E8}" Directory_="APPDIR" Attributes="4" KeyPath="AI_ExePath"/>
+    <ROW Component="Client.exe" ComponentId="{E367FD70-D543-45E7-BF69-0630B9C35D84}" Directory_="ClientFiles_Dir" Attributes="0" KeyPath="Client.exe"/>
+    <ROW Component="Client_PrimaryOutput" ComponentId="{F326AD21-138C-4031-9CAC-D3C818CE3792}" Directory_="Client_Dir" Attributes="0" KeyPath="Client.exe_1"/>
+    <ROW Component="Nito.Async.Sockets.dll" ComponentId="{D721DAF8-E43E-43A9-87BC-B49DCAE0ED6B}" Directory_="CommonFiles_Dir" Attributes="0" KeyPath="Nito.Async.Sockets.dll"/>
+    <ROW Component="Nito.Async.Sockets_PrimaryOutput" ComponentId="{CB08C592-8C8C-4A16-8ECA-2AFB54DEE817}" Directory_="Nito.Async.Sockets_Dir" Attributes="0" KeyPath="Nito.Async.Sockets.dll_1"/>
+    <ROW Component="Nito.Async.dll" ComponentId="{2176C17E-3B04-4A39-BC4E-DB83AFBA3AB4}" Directory_="CommonFiles_Dir" Attributes="0" KeyPath="Nito.Async.dll"/>
+    <ROW Component="Nito.Async_PrimaryOutput" ComponentId="{38D489AF-8DB2-43ED-B2C0-58D097719C88}" Directory_="Nito.Async_Dir" Attributes="0" KeyPath="Nito.Async.dll_1"/>
+    <ROW Component="ProductInformation" ComponentId="{676C0065-C80B-498E-8F02-C8D589A47E63}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
+    <ROW Component="Server.exe" ComponentId="{9A86BC49-0A70-47F9-A6F7-0742D0092FB8}" Directory_="ServerFiles_Dir" Attributes="0" KeyPath="Server.exe"/>
+    <ROW Component="Server_PrimaryOutput" ComponentId="{AE44073D-0416-484B-8DC4-58836BD35ADF}" Directory_="Server_Dir" Attributes="0" KeyPath="Server.exe_1"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
+    <ROW Feature="Client" Title="Client" Description="Beschreibung" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="Client.exe"/>
+    <ROW Feature="Common" Title="Common" Description="Beschreibung" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="Client_PrimaryOutput Nito.Async.Sockets.dll Nito.Async.Sockets_PrimaryOutput Nito.Async.dll Nito.Async_PrimaryOutput Server_PrimaryOutput"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="1" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_ExePath ProductInformation"/>
+    <ROW Feature="Server" Title="Server" Description="Beschreibung" Display="5" Level="1" Directory_="APPDIR" Attributes="0" Components="Server.exe"/>
+    <ATTRIBUTE name="CurrentFeature" value="Common"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
+    <ROW File="Client.exe" Component_="Client.exe" FileName="Client.exe" Attributes="0" SourcePath="..\Client\bin\Release\Client.exe" SelfReg="false" NextFile="Server.exe"/>
+    <ROW File="Client.exe_1" Component_="Client_PrimaryOutput" FileName="[|AI_PROPPATH_FILENAME_PERBUILD_Client.exe_1]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Client.exe_1&gt;" SelfReg="false" NextFile="Nito.Async.dll_1" DigSign="true"/>
+    <ROW File="Nito.Async.Sockets.dll" Component_="Nito.Async.Sockets.dll" FileName="NitoAs~2.dll|Nito.Async.Sockets.dll" Attributes="0" SourcePath="..\Nito.Async.Sockets\bin\Release\Nito.Async.Sockets.dll" SelfReg="false" NextFile="Server.exe_1"/>
+    <ROW File="Nito.Async.Sockets.dll_1" Component_="Nito.Async.Sockets_PrimaryOutput" FileName="NITOAS~2.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_Nito.Async.Sockets.dll_1]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Nito.Async.Sockets.dll_1&gt;" SelfReg="false"/>
+    <ROW File="Nito.Async.dll" Component_="Nito.Async.dll" FileName="NitoAs~1.dll|Nito.Async.dll" Attributes="0" SourcePath="..\Nito.Async\bin\Release\Nito.Async.dll" SelfReg="false" NextFile="Nito.Async.Sockets.dll"/>
+    <ROW File="Nito.Async.dll_1" Component_="Nito.Async_PrimaryOutput" FileName="NITOAS~2.DLL|[|AI_PROPPATH_FILENAME_PERBUILD_Nito.Async.dll_1]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Nito.Async.dll_1&gt;" SelfReg="false" NextFile="Nito.Async.Sockets.dll_1"/>
+    <ROW File="Server.exe" Component_="Server.exe" FileName="Server.exe" Attributes="0" SourcePath="..\Server\bin\Release\Server.exe" SelfReg="false" NextFile="Nito.Async.dll"/>
+    <ROW File="Server.exe_1" Component_="Server_PrimaryOutput" FileName="[|AI_PROPPATH_FILENAME_PERBUILD_Server.exe_1]" Attributes="0" SourcePath="&lt;AI_APPPATH_PERBUILD_Server.exe_1&gt;" SelfReg="false" NextFile="Client.exe_1" DigSign="true"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.AppPathsComponent">
+    <ROW Name="AI_APPPATH_PERBUILD_Client.exe_1" Path="[|AI_PROPPATH_DIR_PERBUILD_Client.exe_1]\[|AI_PROPPATH_FILENAME_PERBUILD_Client.exe_1]" Type="2" Content="0"/>
+    <ROW Name="AI_APPPATH_PERBUILD_Nito.Async.Sockets.dll_1" Path="[|AI_PROPPATH_DIR_PERBUILD_Nito.Async.Sockets.dll_1]\[|AI_PROPPATH_FILENAME_PERBUILD_Nito.Async.Sockets.dll_1]" Type="2" Content="0"/>
+    <ROW Name="AI_APPPATH_PERBUILD_Nito.Async.dll_1" Path="[|AI_PROPPATH_DIR_PERBUILD_Nito.Async.dll_1]\[|AI_PROPPATH_FILENAME_PERBUILD_Nito.Async.dll_1]" Type="2" Content="0"/>
+    <ROW Name="AI_APPPATH_PERBUILD_Server.exe_1" Path="[|AI_PROPPATH_DIR_PERBUILD_Server.exe_1]\[|AI_PROPPATH_FILENAME_PERBUILD_Server.exe_1]" Type="2" Content="0"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="1" PackageFolder="Setup Files" PackageFileName="RemoteImage_Setup" Languages="de" InstallationType="2" CabsLocation="1" CompressCabs="false" UseLzma="true" LzmaMethod="2" LzmaCompressionLevel="2" PackageType="1" FilesInsideExe="true" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true"/>
+    <ATTRIBUTE name="CurrentBuild" value="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
+    <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;ui_de.ail"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
+    <ROW Fragment="ClientServerDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\ClientServerDlg.aip"/>
+    <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
+    <ROW Fragment="FolderDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\FolderDlg.aip"/>
+    <ROW Fragment="MaintenanceTypeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceTypeDlg.aip"/>
+    <ROW Fragment="MaintenanceWelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\MaintenanceWelcomeDlg.aip"/>
+    <ROW Fragment="SequenceDialogs.aip" Path="&lt;AI_THEMES&gt;classic\fragments\SequenceDialogs.aip"/>
+    <ROW Fragment="Sequences.aip" Path="&lt;AI_FRAGS&gt;Sequences.aip"/>
+    <ROW Fragment="StaticUIStrings.aip" Path="&lt;AI_FRAGS&gt;StaticUIStrings.aip"/>
+    <ROW Fragment="UI.aip" Path="&lt;AI_THEMES&gt;classic\fragments\UI.aip"/>
+    <ROW Fragment="Validation.aip" Path="&lt;AI_FRAGS&gt;Validation.aip"/>
+    <ROW Fragment="VerifyRemoveDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRemoveDlg.aip"/>
+    <ROW Fragment="VerifyRepairDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\VerifyRepairDlg.aip"/>
+    <ROW Fragment="WelcomeDlg.aip" Path="&lt;AI_THEMES&gt;classic\fragments\WelcomeDlg.aip"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiActionTextComponent">
+    <ROW Action="AI_DeleteLzma" Description="Lösche die aus dem Archiv extrahierten Dateien" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
+    <ROW Action="AI_DeleteRLzma" Description="Lösche die aus dem Archiv extrahierten Dateien" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
+    <ROW Action="AI_ExtractFiles" Description="Extrahiere Dateien aus dem Archiv" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
+    <ROW Action="AI_ExtractLzma" Description="Extrahiere Dateien aus dem Archiv" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiAppSearchComponent">
+    <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_CU" Builds="DefaultBuild"/>
+    <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_LM" Builds="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
+    <ROW Name="Prereq.dll" SourcePath="&lt;AI_CUSTACTS&gt;Prereq.dll"/>
+    <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
+    <ROW Name="lzmaextractor.dll" SourcePath="&lt;AI_CUSTACTS&gt;lzmaextractor.dll"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
+    <ROW Dialog_="ClientServerDlg" Control="ClientServerDlgDialogInitializer" Type="DialogInitializer" X="0" Y="0" Width="0" Height="0" Attributes="0" Order="-1"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiControlEventComponent">
+    <ROW Dialog_="WelcomeDlg" Control_="Next" Event="NewDialog" Argument="ClientServerDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_INSTALL" Ordering="197"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="FolderDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_INSTALL" Ordering="201"/>
+    <ROW Dialog_="FolderDlg" Control_="Back" Event="NewDialog" Argument="ClientServerDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="MaintenanceWelcomeDlg" Control_="Next" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="99"/>
+    <ROW Dialog_="CustomizeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_MAINT" Ordering="101"/>
+    <ROW Dialog_="CustomizeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_MAINT" Ordering="198"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="202"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="ChangeButton" Event="NewDialog" Argument="CustomizeDlg" Condition="AI_MAINT" Ordering="501"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceWelcomeDlg" Condition="AI_MAINT" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="RemoveButton" Event="NewDialog" Argument="VerifyRemoveDlg" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="601"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="1"/>
+    <ROW Dialog_="MaintenanceTypeDlg" Control_="RepairButton" Event="NewDialog" Argument="VerifyRepairDlg" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="601"/>
+    <ROW Dialog_="VerifyRepairDlg" Control_="Back" Event="NewDialog" Argument="MaintenanceTypeDlg" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="1"/>
+    <ROW Dialog_="VerifyRepairDlg" Control_="Repair" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND InstallMode=&quot;Repair&quot;" Ordering="399"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control_="Remove" Event="EndDialog" Argument="Return" Condition="AI_MAINT AND InstallMode=&quot;Remove&quot;" Ordering="299"/>
+    <ROW Dialog_="PatchWelcomeDlg" Control_="Next" Event="NewDialog" Argument="VerifyReadyDlg" Condition="AI_PATCH" Ordering="201"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_PATCH" Ordering="199"/>
+    <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="PatchWelcomeDlg" Condition="AI_PATCH" Ordering="203"/>
+    <ROW Dialog_="ResumeDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_RESUME" Ordering="299"/>
+    <ROW Dialog_="ClientServerDlg" Control_="ClientButton" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL" Ordering="2"/>
+    <ROW Dialog_="ClientServerDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
+    <ROW Dialog_="ClientServerDlg" Control_="ServerButton" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL AND InstallMode=&quot;Server&quot;" Ordering="2"/>
+    <ROW Dialog_="FolderDlg" Control_="Back" Event="NewDialog" Argument="ClientServerDlg" Condition="AI_INSTALL AND InstallMode=&quot;Server&quot;" Ordering="3"/>
+    <ROW Dialog_="ClientServerDlg" Control_="CompleteButton" Event="NewDialog" Argument="FolderDlg" Condition="AI_INSTALL AND InstallMode=&quot;ClientServer&quot;" Ordering="2"/>
+    <ROW Dialog_="FolderDlg" Control_="Back" Event="NewDialog" Argument="ClientServerDlg" Condition="AI_INSTALL AND InstallMode=&quot;ClientServer&quot;" Ordering="2"/>
+    <ROW Dialog_="ClientServerDlg" Control_="ClientButton" Event="AddLocal" Argument="Client" Condition="1" Ordering="3"/>
+    <ROW Dialog_="ClientServerDlg" Control_="ClientButton" Event="AddLocal" Argument="Common" Condition="1" Ordering="4"/>
+    <ROW Dialog_="ClientServerDlg" Control_="ClientButton" Event="[AI_CSAPP_BUILD]" Argument="Client" Condition="1" Ordering="5"/>
+    <ROW Dialog_="ClientServerDlg" Control_="ServerButton" Event="AddLocal" Argument="Server" Condition="1" Ordering="3"/>
+    <ROW Dialog_="ClientServerDlg" Control_="ServerButton" Event="AddLocal" Argument="Common" Condition="1" Ordering="4"/>
+    <ROW Dialog_="ClientServerDlg" Control_="ServerButton" Event="[AI_CSAPP_BUILD]" Argument="Server" Condition="1" Ordering="6"/>
+    <ROW Dialog_="ClientServerDlg" Control_="CompleteButton" Event="AddLocal" Argument="ALL" Condition="1" Ordering="3"/>
+    <ROW Dialog_="ClientServerDlg" Control_="ClientServerDlgDialogInitializer" Event="Remove" Argument="ALL" Condition="1" Ordering="0"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
+    <ROW Action="AI_AppSearchEx" Type="1" Source="Prereq.dll" Target="DoAppSearchEx"/>
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DATA_SETTER" Type="51" Source="AI_ExtractFiles" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DOWNGRADE" Type="19" Target="4010"/>
+    <ROW Action="AI_DeleteCadLzma" Type="51" Source="AI_DeleteLzma" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DeleteLzma" Type="1025" Source="lzmaextractor.dll" Target="DeleteLZMAFiles"/>
+    <ROW Action="AI_DeleteRCadLzma" Type="51" Source="AI_DeleteRLzma" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_DeleteRLzma" Type="1281" Source="lzmaextractor.dll" Target="DeleteLZMAFiles"/>
+    <ROW Action="AI_DpiContentScale" Type="1" Source="aicustact.dll" Target="DpiContentScale"/>
+    <ROW Action="AI_EstimateExtractFiles" Type="1" Source="Prereq.dll" Target="EstimateExtractFiles"/>
+    <ROW Action="AI_ExtractCadLzma" Type="51" Source="AI_ExtractLzma" Target="[AI_SETUPEXEPATH]"/>
+    <ROW Action="AI_ExtractFiles" Type="1025" Source="Prereq.dll" Target="ExtractSourceFiles" AdditionalSeq="AI_DATA_SETTER"/>
+    <ROW Action="AI_ExtractLzma" Type="1025" Source="lzmaextractor.dll" Target="ExtractLZMAFiles"/>
+    <ROW Action="AI_FindExeLzma" Type="1" Source="lzmaextractor.dll" Target="FindEXE"/>
+    <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
+    <ROW Action="AI_LaunchApp" Type="1" Source="aicustact.dll" Target="[LAUNCH_APP_PATH]"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH" Target="[AI_SETUPEXEPATH_ORIGINAL]"/>
+    <ROW Action="AI_RESTORE_LOCATION" Type="65" Source="aicustact.dll" Target="RestoreLocation"/>
+    <ROW Action="AI_ResolveKnownFolders" Type="1" Source="aicustact.dll" Target="AI_ResolveKnownFolders"/>
+    <ROW Action="AI_ResolveLocalizedCredentials" Type="1" Source="aicustact.dll" Target="GetLocalizedCredentials"/>
+    <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
+    <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
+    <ROW Action="ExecuteLaunchApp" Type="51" Source="RUNAPPLICATION" Target="1"/>
+    <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]"/>
+    <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
+    <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
+    <ROW Action="SetAppPathClient" Type="51" Source="LAUNCH_APP_PATH" Target="[APPDIR]Client.exe"/>
+    <ROW Action="ShowLaunchAppOption" Type="51" Source="CTRLS" Target="2"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
+    <ROW Name="iconfinal.exe" SourcePath="..\Client\icon final.ico" Index="0"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
+    <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="210"/>
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_STORE_LOCATION" Condition="(Not Installed) OR REINSTALL" Sequence="1501"/>
+    <ROW Action="AI_PREPARE_UPGRADE" Condition="AI_UPGRADE=&quot;No&quot; AND (Not Installed)" Sequence="1399"/>
+    <ROW Action="AI_ResolveKnownFolders" Sequence="52"/>
+    <ROW Action="AI_ResolveLocalizedCredentials" Sequence="51"/>
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99" Builds="DefaultBuild"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="199" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteRCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="198" Builds="DefaultBuild"/>
+    <ROW Action="AI_ExtractCadLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="197" Builds="DefaultBuild"/>
+    <ROW Action="AI_FindExeLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="196" Builds="DefaultBuild"/>
+    <ROW Action="AI_ExtractLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="1549" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteRLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="1548" Builds="DefaultBuild"/>
+    <ROW Action="AI_DeleteLzma" Condition="SETUPEXEDIR=&quot;&quot; AND Installed AND (REMOVE&lt;&gt;&quot;ALL&quot;) AND (AI_INSTALL_MODE&lt;&gt;&quot;Remove&quot;) AND (NOT PATCH)" Sequence="6599" Builds="DefaultBuild"/>
+    <ROW Action="AI_AppSearchEx" Sequence="101"/>
+    <ROW Action="AI_ExtractFiles" Sequence="3998" Builds="DefaultBuild"/>
+    <ROW Action="AI_DATA_SETTER" Sequence="3997"/>
+    <ROW Action="AI_EstimateExtractFiles" Sequence="3999" Builds="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
+    <ROW Action="AI_RESTORE_LOCATION" Condition="APPDIR=&quot;&quot;" Sequence="749"/>
+    <ROW Action="AI_ResolveKnownFolders" Sequence="53"/>
+    <ROW Action="AI_ResolveLocalizedCredentials" Sequence="52"/>
+    <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Sequence="99"/>
+    <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Condition="AI_SETUPEXEPATH_ORIGINAL" Sequence="102"/>
+    <ROW Action="SetAppPathClient" Condition="(AI_CSAPP_BUILD = &quot;Client&quot;)" Sequence="1283"/>
+    <ROW Action="ShowLaunchAppOption" Condition="(AI_CSAPP_BUILD = &quot;Client&quot;)" Sequence="1282"/>
+    <ROW Action="ExecuteLaunchApp" Condition="(AI_CSAPP_BUILD = &quot;Client&quot;)" Sequence="1281"/>
+    <ROW Action="AI_AppSearchEx" Sequence="101"/>
+    <ROW Action="AI_DpiContentScale" Sequence="51"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
+    <ROW Condition="(VersionNT &lt;&gt; 400)" Description="[ProductName] cannot be installed on the following Windows versions: [WindowsTypeNT40Display]" DescriptionLocId="AI.LaunchCondition.NoNT40" IsPredefined="true" Builds="DefaultBuild"/>
+    <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
+    <ROW Signature_="AI_EXE_PATH_CU" Root="1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
+    <ROW Signature_="AI_EXE_PATH_LM" Root="2" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
+    <ROW Registry="AI_ExePath" Root="-1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Value="[AI_SETUPEXEPATH]" Component_="AI_ExePath"/>
+    <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
+    <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
+    <ATTRIBUTE name="UsedTheme" value="classic"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiUpgradeComponent">
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMax="[|ProductVersion]" Attributes="1025" ActionProperty="OLDPRODUCTS"/>
+    <ROW UpgradeCode="[|UpgradeCode]" VersionMin="[|ProductVersion]" Attributes="2" ActionProperty="AI_NEWERPRODUCTFOUND"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.PreReqComponent">
+    <ROW PrereqKey="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF" DisplayName=".NET Framework 4.0 Client Profile" VersionMin="4.0" SetupFileUrl="http://download.microsoft.com/download/5/6/2/562A10F9-C9F4-4313-A044-9C94E0A8FAC8/dotNetFx40_Client_x86_x64.exe" Location="1" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT 4.0, Windows NT 4.0 Service Pack 1, Windows NT 4.0 Service Pack 2, Windows NT 4.0 Service Pack 3, Windows NT 4.0 Service Pack 4, Windows NT 4.0 Service Pack 5, Windows NT 4.0 Service Pack 6, Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4, Windows XP x86, Windows XP x86 Service Pack 1, Windows XP x86 Service Pack 2" Operator="1"/>
+    <ROW PrereqKey="D5C699_A57D_4421_B6E5_EA2F482CBA61" DisplayName=".NET Framework 3.5 Client Profile" VersionMin="3.5" SetupFileUrl="http://download.microsoft.com/download/5/3/4/5347CEDC-6A83-49F5-9347-BCD58A9AAE25/DotNetFx35ClientSetup.exe" Location="1" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT 4.0, Windows NT 4.0 Service Pack 1, Windows NT 4.0 Service Pack 2, Windows NT 4.0 Service Pack 3, Windows NT 4.0 Service Pack 4, Windows NT 4.0 Service Pack 5, Windows NT 4.0 Service Pack 6, Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4, Windows XP x86, Windows XP x86 Service Pack 1, Windows 8 x86" WinNT64Versions="Windows 8 x64" Operator="1"/>
+    <ATTRIBUTE name="PrereqsOrder" value="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF D5C699_A57D_4421_B6E5_EA2F482CBA61"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
+    <ROW SearchKey="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF_NET_40_CP_SEARCH" Prereq="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client\Version" VerMin="4.0" Order="1" Property="AI_NET_40_CP_PREREQSEARCH_PROP"/>
+    <ROW SearchKey="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF_NET_40_SEARCH" Prereq="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Version" VerMin="4.0" Order="2" Property="AI_NET_40_PREREQSEARCH_PROP"/>
+    <ROW SearchKey="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF_NET_45_SEARCH" Prereq="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Version" VerMin="4.5" Order="3" Property="AI_NET_40CP_45_PREREQSEARCH_PROP"/>
+    <ROW SearchKey="D5C699_A57D_4421_B6E5_EA2F482CBA61_NET_35_SEARCH" Prereq="D5C699_A57D_4421_B6E5_EA2F482CBA61" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\DotNetClient\v3.5\Install" RefContent="M1" Order="1" Property="AI_NET_35CP_ORIGINAL_PREREQSEARCH_PROP"/>
+    <ROW SearchKey="D5C699_A57D_4421_B6E5_EA2F482CBA61_NET_35_SP1_SEARCH" Prereq="D5C699_A57D_4421_B6E5_EA2F482CBA61" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v3.5\SP" RefContent="M1" Order="2" Property="AI_NET_35CP_35SP1_PREREQSEARCH_PROP"/>
+    <ROW SearchKey="D5C699_A57D_4421_B6E5_EA2F482CBA61_NET_40_CP_SEARCH" Prereq="D5C699_A57D_4421_B6E5_EA2F482CBA61" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client\Version" VerMin="4.0" Order="3" Property="AI_NET_35CP_40_CP_PREREQSEARCH_PROP"/>
+    <ROW SearchKey="D5C699_A57D_4421_B6E5_EA2F482CBA61_NET_40_SEARCH" Prereq="D5C699_A57D_4421_B6E5_EA2F482CBA61" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Version" VerMin="4.0" Order="4" Property="AI_NET_35CP_40_PREREQSEARCH_PROP"/>
+    <ROW SearchKey="D5C699_A57D_4421_B6E5_EA2F482CBA61_NET_45_SEARCH" Prereq="D5C699_A57D_4421_B6E5_EA2F482CBA61" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Version" VerMin="4.5" Order="5" Property="AI_NET_35CP_45_PREREQSEARCH_PROP"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.VsProjectComponent">
+    <ROW Solution="C:\Users\V-Modder\Documents\Visual Studio 2010\Projects\RemoteImage\RemoteImage.sln" ProjectId="{3fe735ec-cbf6-4577-965d-41d842b31997}" ProjectName="Server" OutputGroup="PrimaryOutput" OutputFile="Server.exe_1"/>
+    <ROW Solution="C:\Users\V-Modder\Documents\Visual Studio 2010\Projects\RemoteImage\RemoteImage.sln" ProjectId="{cd6015e1-08d7-44a2-aca3-fba30ec96cf1}" ProjectName="Client" OutputGroup="PrimaryOutput" OutputFile="Client.exe_1"/>
+    <ROW Solution="C:\Users\V-Modder\Documents\Visual Studio 2010\Projects\RemoteImage\RemoteImage.sln" ProjectId="{708763ed-7801-4f2c-b103-4febd771769a}" ProjectName="Nito.Async" OutputGroup="PrimaryOutput" OutputFile="Nito.Async.dll_1"/>
+    <ROW Solution="C:\Users\V-Modder\Documents\Visual Studio 2010\Projects\RemoteImage\RemoteImage.sln" ProjectId="{b412b766-bec2-407c-a7a1-0e5257511515}" ProjectName="Nito.Async.Sockets" OutputGroup="PrimaryOutput" OutputFile="Nito.Async.Sockets.dll_1"/>
+  </COMPONENT>
+</DOCUMENT>
