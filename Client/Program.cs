@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
+using System.Threading;
+using System.Diagnostics;
+using Istance;
 
 namespace Client
 {
@@ -13,9 +14,22 @@ namespace Client
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ClientDlg());
+            Mutex mutexObj = null;
+            bool mutexCreated = false;
+            mutexObj = new Mutex(true, "RemoteImage_Client", out mutexCreated);
+            Process proc = InstanceHandler.RunningInstance();
+
+            if (proc != null || !mutexCreated)
+            {
+                //ErrorMessages.Show_OnlyOneProgInstance();
+                InstanceHandler.HandleRunningInstance(proc);
+            }
+            else
+            {
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+                Application.Run(new ClientDlg());
+            }
         }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientDlg));
             this.btn_picture = new System.Windows.Forms.Button();
             this.btn_snipping = new System.Windows.Forms.Button();
             this.txt_serverip = new System.Windows.Forms.TextBox();
@@ -118,6 +119,7 @@
             this.Controls.Add(this.btn_snipping);
             this.Controls.Add(this.btn_picture);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.Name = "ClientDlg";
             this.Text = "RomoteImage - Client";
