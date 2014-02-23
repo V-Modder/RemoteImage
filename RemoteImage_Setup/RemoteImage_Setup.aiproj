@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">All</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>e2f199b9-4939-4bd7-85ae-068761b81c38</ProjectGuid>
+    <ProjectGuid>{c4b932d2-f20f-4d63-8ef5-ffc7f0f172f9}</ProjectGuid>
     <OutputType>msi</OutputType>
     <ProjectHome>.</ProjectHome>
     <StartupFile>RemoteImage_Setup.aip</StartupFile>
@@ -20,6 +20,7 @@
     <OutputPath>msi\</OutputPath>
     <EnableUnmanagedDebugging>true</EnableUnmanagedDebugging>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'DefaultBuild' " />
   <ItemGroup>
     <Compile Include="RemoteImage_Setup.aip">
       <SubType>Code</SubType>

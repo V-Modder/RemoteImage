@@ -9,12 +9,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Info Files", "Info Files", 
 	ProjectSection(SolutionItems) = preProject
 		license.md = license.md
 		Readme.md = Readme.md
-		Client\setup.aip = Client\setup.aip
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nito.Async", "Nito.Async\Nito.Async.csproj", "{708763ED-7801-4F2C-B103-4FEBD771769A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nito.Async.Sockets", "Nito.Async.Sockets\Nito.Async.Sockets.csproj", "{B412B766-BEC2-407C-A7A1-0E5257511515}"
+EndProject
+Project("{840C416C-B8F3-42BC-B0DD-F6BB14C9F8CB}") = "RemoteImage_Setup", "RemoteImage_Setup\RemoteImage_Setup.aiproj", "{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B412B766-BEC2-407C-A7A1-0E5257511515} = {B412B766-BEC2-407C-A7A1-0E5257511515}
+		{CD6015E1-08D7-44A2-ACA3-FBA30EC96CF1} = {CD6015E1-08D7-44A2-ACA3-FBA30EC96CF1}
+		{3FE735EC-CBF6-4577-965D-41D842B31997} = {3FE735EC-CBF6-4577-965D-41D842B31997}
+		{708763ED-7801-4F2C-B103-4FEBD771769A} = {708763ED-7801-4F2C-B103-4FEBD771769A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +73,18 @@ Global
 		{B412B766-BEC2-407C-A7A1-0E5257511515}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B412B766-BEC2-407C-A7A1-0E5257511515}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B412B766-BEC2-407C-A7A1-0E5257511515}.Release|x86.ActiveCfg = Release|Any CPU
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Debug|Any CPU.ActiveCfg = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Debug|Any CPU.Build.0 = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Debug|Mixed Platforms.ActiveCfg = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Debug|Mixed Platforms.Build.0 = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Debug|x86.ActiveCfg = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Debug|x86.Build.0 = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Release|Any CPU.ActiveCfg = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Release|Any CPU.Build.0 = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Release|Mixed Platforms.ActiveCfg = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Release|Mixed Platforms.Build.0 = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Release|x86.ActiveCfg = All
+		{C4B932D2-F20F-4D63-8EF5-FFC7F0F172F9}.Release|x86.Build.0 = All
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
